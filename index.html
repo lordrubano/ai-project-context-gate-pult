@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI PROJECT CONTEXT GATE — прогресс</title>
+  <style>
+    :root { color-scheme: dark; --bg:#0d0f12; --panel:#171a20; --line:#2a2f38; --text:#f2f4f8; --muted:#929aa8; --blue:#68a7ff; --violet:#a987ff; --green:#57d58a; --amber:#f4bb45; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:15px/1.5 Inter,Segoe UI,Arial,sans-serif; }
+    main { width:min(1120px,calc(100% - 32px)); margin:0 auto; padding:42px 0 80px; }
+    h1,h2,h3,p { margin-top:0; }
+    h1 { font-size:clamp(28px,5vw,46px); margin-bottom:6px; }
+    h2 { font-size:20px; }
+    .muted { color:var(--muted); }
+    .card { background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:22px; margin-top:18px; box-shadow:0 12px 36px #0004; }
+    .summary { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+    .metric strong { display:block; font-size:30px; margin:6px 0; }
+    .bar { height:9px; background:#252a32; border-radius:99px; overflow:hidden; }
+    .fill { height:100%; width:0; background:linear-gradient(90deg,var(--blue),var(--violet)); }
+    .phase { border-top:1px solid var(--line); padding:16px 0 0; margin-top:16px; }
+    summary { cursor:pointer; font-weight:700; }
+    table { width:100%; border-collapse:collapse; margin-top:14px; }
+    th,td { padding:10px 8px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+    th { color:var(--muted); font-size:12px; text-transform:uppercase; }
+    .status { display:inline-block; border-radius:99px; padding:3px 9px; background:#252b34; font-size:12px; white-space:nowrap; }
+    .status.ACCEPTED { background:#123b24; color:var(--green); }
+    .status.RUNNING,.status.REVIEW { background:#173355; color:var(--blue); }
+    .status.REWORK,.status.STOPPED { background:#4b3410; color:var(--amber); }
+    .now { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    code { color:var(--blue); }
+    @media (max-width:760px) { .summary,.now { grid-template-columns:1fr; } table { display:block; overflow-x:auto; } main { width:min(100% - 20px,1120px); padding-top:24px; } }
+  </style>
+</head>
+<body>
+<main>
+  <header><h1 id="name">AI PROJECT CONTEXT GATE</h1><p class="muted" id="freshness">Загрузка проверенной проекции…</p></header>
+  <section class="card summary">
+    <div class="metric"><span class="muted">Принято шагов</span><strong id="steps">—</strong><div class="bar"><div class="fill" id="steps-bar"></div></div><span class="muted" id="steps-percent"></span></div>
+    <div class="metric"><span class="muted">Принято веса</span><strong id="weight">—</strong><div class="bar"><div class="fill" id="weight-bar"></div></div><span class="muted" id="weight-percent"></span></div>
+  </section>
+  <section class="card"><h2>Что сейчас</h2><div class="now"><div><span class="muted">Состояние</span><p id="state">—</p></div><div><span class="muted">Текущий шаг</span><p id="current">—</p></div><div><span class="muted">Ожидается</span><p id="waiting">—</p></div></div></section>
+  <section class="card"><h2>Фазы и шаги</h2><div id="phases"></div></section>
+  <footer class="muted card">Источник: утверждённый MASTER PLAN и проверенная цепочка событий · Digest: <code id="digest">—</code></footer>
+</main>
+<script>
+const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+const pct = value => `${Number(value).toLocaleString('ru-RU',{maximumFractionDigits:2})}%`;
+fetch('./project-state.json',{cache:'no-store'}).then(response => { if(!response.ok) throw new Error('state'); return response.json(); }).then(data => {
+  document.getElementById('name').textContent=data.project.name;
+  document.getElementById('freshness').textContent=`План ${data.project.planVersion} · собрано ${new Date(data.builtAt).toLocaleString('ru-RU')}`;
+  document.getElementById('steps').textContent=`${data.summary.acceptedSteps} из ${data.summary.totalSteps}`;
+  document.getElementById('weight').textContent=`${data.summary.acceptedWeight} из ${data.summary.totalWeight}`;
+  document.getElementById('steps-percent').textContent=pct(data.summary.stepPercent);
+  document.getElementById('weight-percent').textContent=pct(data.summary.weightPercent);
+  document.getElementById('steps-bar').style.width=`${data.summary.stepPercent}%`;
+  document.getElementById('weight-bar').style.width=`${data.summary.weightPercent}%`;
+  document.getElementById('state').textContent=data.current.controllerState;
+  document.getElementById('current').textContent=data.current.stepId ? `${data.current.stepId} — ${data.current.title}` : 'нет активного шага';
+  document.getElementById('waiting').textContent=data.current.waitingFor;
+  document.getElementById('digest').textContent=data.sourceDigest.slice(0,16)+'…';
+  const byId=new Map(data.steps.map(step=>[step.id,step]));
+  document.getElementById('phases').innerHTML=data.phases.map((phase,index)=>`<details class="phase" ${index===0?'open':''}><summary>${esc(phase.title)} · ${phase.progress.acceptedSteps}/${phase.progress.totalSteps} шагов · ${phase.progress.acceptedWeight}/${phase.progress.totalWeight} веса</summary><p class="muted">${esc(phase.goal)}</p><table><thead><tr><th>№</th><th>Шаг</th><th>Сложность</th><th>Вес</th><th>Роль</th><th>Состояние</th></tr></thead><tbody>${phase.stepIds.map(id=>byId.get(id)).filter(Boolean).map(step=>`<tr><td>${esc(step.id)}</td><td>${esc(step.title)}</td><td>${esc(step.complexity)}</td><td>${esc(step.weight)}</td><td>${esc(step.primaryRole)}</td><td><span class="status ${esc(step.status)}">${esc(step.status)}</span></td></tr>`).join('')}</tbody></table></details>`).join('');
+}).catch(() => { document.getElementById('freshness').textContent='Проверенная проекция недоступна. Публикация заблокирована.'; });
+</script>
+</body>
+</html>
