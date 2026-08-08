@@ -62,7 +62,7 @@ function render(data) {
   const byId=new Map(data.steps.map(step=>[step.id,step]));
   document.getElementById('phases').innerHTML=data.phases.map((phase,index)=>`<details class="phase" ${index===0?'open':''}><summary>${esc(phase.label)} · ${phase.progress.acceptedSteps}/${phase.progress.totalSteps} шагов · ${phase.progress.acceptedWeight}/${phase.progress.totalWeight} веса</summary><table><thead><tr><th>№</th><th>Публичное обозначение</th><th>Сложность</th><th>Вес</th><th>Состояние</th></tr></thead><tbody>${phase.stepIds.map(id=>byId.get(id)).filter(Boolean).map(step=>`<tr><td>${esc(step.id)}</td><td>${esc(step.label)}</td><td>${esc(step.complexity)}</td><td>${esc(step.weight)}</td><td><span class="status ${esc(step.status)}">${esc(step.status)}</span></td></tr>`).join('')}</tbody></table></details>`).join('');
 }
-const localState=window.__CONTEXT_GATE_PUBLIC_STATE__;
+    const localState=location.protocol==='file:' ? window.__CONTEXT_GATE_PUBLIC_STATE__ : null;
 if(localState){render(localState);}else{
   fetch('./project-state.json',{cache:'no-store'})
     .then(response=>{if(!response.ok)throw new Error('state');return response.json();})
