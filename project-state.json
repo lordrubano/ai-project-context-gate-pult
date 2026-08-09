@@ -13,10 +13,10 @@
     "readinessStatus": "IN_PROGRESS"
   },
   "current": {
-    "controllerState": "RUNNING",
+    "controllerState": "REVIEW",
     "stepId": "CG-08",
     "label": "Контрольная точка 08",
-    "waitingFor": "РЕЗУЛЬТАТ ВЫПОЛНЕНИЯ"
+    "waitingFor": "ПРОВЕРКА РЕЗУЛЬТАТА"
   },
   "phases": [
     {
@@ -193,7 +193,7 @@
       "label": "Контрольная точка 08",
       "complexity": "Очень сложный",
       "weight": 10,
-      "status": "RUNNING"
+      "status": "REVIEW"
     },
     {
       "id": "CG-S01",
@@ -329,5 +329,5 @@
       "status": "NOT_STARTED"
     }
   ],
-  "builtAt": "2026-08-09T00:07:01.703Z"
+  "builtAt": "2026-08-09T00:22:22.330Z"
 }
