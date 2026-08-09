@@ -4,18 +4,18 @@
     "name": "AI PROJECT CONTEXT GATE"
   },
   "summary": {
-    "acceptedSteps": 23,
+    "acceptedSteps": 24,
     "totalSteps": 27,
-    "stepPercent": 85.19,
-    "acceptedWeight": 164,
+    "stepPercent": 88.89,
+    "acceptedWeight": 174,
     "totalWeight": 201,
-    "weightPercent": 81.59,
+    "weightPercent": 86.57,
     "readinessStatus": "IN_PROGRESS"
   },
   "current": {
     "controllerState": "RUNNING",
-    "stepId": "CG-19",
-    "label": "Контрольная точка 19",
+    "stepId": "CG-20",
+    "label": "Контрольная точка 20",
     "waitingFor": "РЕЗУЛЬТАТ ВЫПОЛНЕНИЯ"
   },
   "phases": [
@@ -130,11 +130,11 @@
         "CG-22"
       ],
       "progress": {
-        "acceptedSteps": 0,
+        "acceptedSteps": 1,
         "totalSteps": 4,
-        "acceptedWeight": 0,
+        "acceptedWeight": 10,
         "totalWeight": 37,
-        "percent": 0
+        "percent": 27.03
       }
     }
   ],
@@ -305,14 +305,14 @@
       "label": "Контрольная точка 19",
       "complexity": "Очень сложный",
       "weight": 10,
-      "status": "RUNNING"
+      "status": "ACCEPTED"
     },
     {
       "id": "CG-20",
       "label": "Контрольная точка 20",
       "complexity": "Очень сложный",
       "weight": 10,
-      "status": "NOT_STARTED"
+      "status": "RUNNING"
     },
     {
       "id": "CG-21",
@@ -329,5 +329,5 @@
       "status": "NOT_STARTED"
     }
   ],
-  "builtAt": "2026-08-09T01:59:49.189Z"
+  "builtAt": "2026-08-09T02:06:11.495Z"
 }
