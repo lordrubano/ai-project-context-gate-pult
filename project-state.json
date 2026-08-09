@@ -13,10 +13,10 @@
     "readinessStatus": "IN_PROGRESS"
   },
   "current": {
-    "controllerState": "RUNNING",
+    "controllerState": "REWORK",
     "stepId": "CG-20",
     "label": "Контрольная точка 20",
-    "waitingFor": "РЕЗУЛЬТАТ ВЫПОЛНЕНИЯ"
+    "waitingFor": "ИСПРАВЛЕНИЕ"
   },
   "phases": [
     {
@@ -312,7 +312,7 @@
       "label": "Контрольная точка 20",
       "complexity": "Очень сложный",
       "weight": 10,
-      "status": "RUNNING"
+      "status": "REWORK"
     },
     {
       "id": "CG-21",
@@ -329,5 +329,5 @@
       "status": "NOT_STARTED"
     }
   ],
-  "builtAt": "2026-08-09T02:06:11.495Z"
+  "builtAt": "2026-08-09T02:54:51.639Z"
 }
