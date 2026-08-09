@@ -4,18 +4,18 @@
     "name": "AI PROJECT CONTEXT GATE"
   },
   "summary": {
-    "acceptedSteps": 8,
+    "acceptedSteps": 9,
     "totalSteps": 27,
-    "stepPercent": 29.63,
-    "acceptedWeight": 59,
+    "stepPercent": 33.33,
+    "acceptedWeight": 63,
     "totalWeight": 201,
-    "weightPercent": 29.35,
+    "weightPercent": 31.34,
     "readinessStatus": "IN_PROGRESS"
   },
   "current": {
     "controllerState": "RUNNING",
-    "stepId": "CG-S01",
-    "label": "Контрольная точка S01",
+    "stepId": "CG-S02",
+    "label": "Контрольная точка S02",
     "waitingFor": "РЕЗУЛЬТАТ ВЫПОЛНЕНИЯ"
   },
   "phases": [
@@ -64,11 +64,11 @@
         "CG-S05"
       ],
       "progress": {
-        "acceptedSteps": 0,
+        "acceptedSteps": 1,
         "totalSteps": 5,
-        "acceptedWeight": 0,
+        "acceptedWeight": 4,
         "totalWeight": 29,
-        "percent": 0
+        "percent": 13.79
       }
     },
     {
@@ -200,14 +200,14 @@
       "label": "Контрольная точка S01",
       "complexity": "Средний",
       "weight": 4,
-      "status": "RUNNING"
+      "status": "ACCEPTED"
     },
     {
       "id": "CG-S02",
       "label": "Контрольная точка S02",
       "complexity": "Сложный",
       "weight": 7,
-      "status": "NOT_STARTED"
+      "status": "RUNNING"
     },
     {
       "id": "CG-S03",
@@ -329,5 +329,5 @@
       "status": "NOT_STARTED"
     }
   ],
-  "builtAt": "2026-08-09T00:29:44.644Z"
+  "builtAt": "2026-08-09T00:35:42.585Z"
 }
